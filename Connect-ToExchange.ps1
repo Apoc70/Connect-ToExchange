@@ -9,7 +9,7 @@
 
     Send comments and remarks to: support@granikos.eu
 	
-    Version 1.0, 2017-02-13
+    Version 1.1, 2017-04-05
 
     .DESCRIPTION
     This script helps administrators and support desk personnel to connect an Exchange Server 2013+ using remote PowerShell.
@@ -18,20 +18,8 @@
 
     You can implement the function in your own scripts to connect to Exchange remotely. 
 
-    .LINK  
-    GitHub
-    https://github.com/Apoc70
-
     .LINK
-    TechNet
-    https://gallery.technet.microsoft.com
-
-    .LINK
-    Blog
-    http://JustCantGetEnough.Granikos.eu
-
-    .LINK
-    More scripts: http://scripts.Granikos.eu
+    http://scripts.Granikos.eu
     
     .NOTES 
     Requirements
@@ -54,6 +42,7 @@
     ./Connect-ToExchange.ps1
 #>
 
+[CmdletBinding()]
 param (
     [string]$Server
 )
@@ -71,12 +60,12 @@ function Connect-ToExchange {
     }
     
     # Query for logon credentials
-    $cred = Get-Credential -Message "Enter your login credentials" 
+    $cred = Get-Credential -Message 'Enter your login credentials' 
     
-    Write-Host "Connecting to server: $($ConnectToServer)"
+    Write-Host ('Connecting to server: {0}' -f ($ConnectToServer))
     
     # Set connection Uri
-    $connectionUri = "http://$ConnectToServer/powershell?serializationLevel=Full"
+    $connectionUri = ('http://{0}/powershell?serializationLevel=Full' -f $ConnectToServer)
     
     # Create remote PowerShell Session
     $session = New-PSSession -ConfigurationName Microsoft.Exchange -ConnectionUri $connectionUri -Credential $cred -Authentication Kerberos -AllowRedirection -WarningAction Ignore 
